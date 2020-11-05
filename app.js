@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const createTeamMember = require('./lib/createTeamMember');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -13,67 +14,28 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const team = [];
-const createTeamMember = (role) => {
-    const employeeSpecificQuestions = {
-        Manager: {
-            message: 'What is the managers office number?',
-            name: 'officeNumber'
-        },
-        Engineer: {
-            message: 'What is github username?',
-            name: 'github'
-        },
-        Intern: {
-            message: 'What is your schools name?',
-            name: 'school'
-        },
-    }
-    inquirer.prompt([
-        {
-            type: 'input',
-            message: 'What is your name?',
-            name: 'name'
-        },
-        {
-            type: 'input',
-            message: 'What is your id',
-            name: 'id'
-        },
-        {
-            type: 'input',
-            message: 'What is your email?',
-            name: 'email'
-        },
-        {
-            type: 'input',
-            message: `${employeeSpecificQuestions[role].message}`,
-            name: `${employeeSpecificQuestions[role].name}`
-        },
-    ]).then((answers) => {
-        const uniqueValue = employeeSpecificQuestions[role].name;
-        const {name, id, email} = answers;
 
-        if (role === 'Engineer') {
-            team.push(new Engineer(name, id, email, answers[uniqueValue] ) );
-            
-        } else if (role === 'Manager') {
-            
-            team.push(new Manager(name, id, email, answers[uniqueValue] ) );
-        } else if (role === 'Intern') {
-           
-            team.push(new Intern(name, id, email, answers[uniqueValue] ) );
-        }
-        
-        team.forEach(member => console.log(member));
-    })
+const buildTeam = async () => {
+    const team = [];
+    for(let i = 0; i < 5 ; i++){
+        let something = await createTeamMember('Intern');
+        team.push(something)
+        // .then(response => {
+        //     team.push(response)
+        //     console.log('----------------', team);
+        // })
+    }
+    console.log('----------------', team);
 
 }
+buildTeam()
+
 
 
 // createTeamMember('Engineer');
 // createTeamMember('Manager');
-createTeamMember('Intern');
+
+
 
 
 
