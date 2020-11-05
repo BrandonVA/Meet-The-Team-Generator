@@ -4,7 +4,9 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+
 const createTeamMember = require('./lib/createTeamMember');
+const addTeamMember = require('./lib/addTeamMember');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -17,18 +19,38 @@ const render = require("./lib/htmlRenderer");
 
 const buildTeam = async () => {
     const team = [];
-    for(let i = 0; i < 5 ; i++){
-        let something = await createTeamMember('Intern');
+
+    let addMember = true;
+    
+
+
+
+
+
+
+
+    do {
+        let teamMemberRole = await addTeamMember.memberRole()
+        let something = await createTeamMember(teamMemberRole);
         team.push(something)
+        addMember =  await addTeamMember.proceed();
+    } while (addMember)
+
+    
+    // for(let i = 0; i < 5 ; i++){
+        // let something = await createTeamMember('Intern');
+        // team.push(something)
         // .then(response => {
         //     team.push(response)
         //     console.log('----------------', team);
         // })
-    }
+    // }
     console.log('----------------', team);
+    console.log('Hello')
 
 }
 buildTeam()
+// console.log('Hello')
 
 
 
