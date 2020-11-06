@@ -1,7 +1,3 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
@@ -14,31 +10,34 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
+// Function to build a team using exported functions from inquirer prompts and 
+// generates those responses into a new object sub class from the Employee constructor.
 const buildTeam = async () => {
+    // array to hold all the team members generated.
     const team = [];
-
+    // var to hold value for weather or not to add a new team member.
     let addMember = true;
     
+    // do while loop if addMember is true build new team members and push that member into the team array.
+        // 1. ask for role                                            
+        // 2. ask role specific questions                             
+        // 3. push new member
+        // 4. ask if you want to create new member  (updates addMember with value)                   
+        
     do {
-        let teamMemberRole = await addTeamMember.memberRole()
-        let something = await createTeamMember(teamMemberRole);
-        team.push(something)
-        addMember =  await addTeamMember.proceed();
+        let teamMemberRole = await addTeamMember.memberRole()      // -- inquirer promise function
+        let newMember = await createTeamMember(teamMemberRole);    //-- inquirer promise function
+        team.push(newMember)
+        addMember =  await addTeamMember.proceed();                //-- inquirer promise function
     } while (addMember)
 
-    
-
-    console.log('----------------', team);
+    // var for holding value of the team rendered using the render function
     const renderedTeam = render(team);
-    // __dirname + '/output/team.html'
+    //  Writing new file the rendered html in the output folder.
     fs.writeFile(outputPath, renderedTeam, err => {
         if (err) throw err;
         console.log('This file has been created.');
     })
-    console.log('Hello')
 
 }
 buildTeam()
