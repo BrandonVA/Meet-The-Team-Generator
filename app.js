@@ -22,13 +22,6 @@ const buildTeam = async () => {
 
     let addMember = true;
     
-
-
-
-
-
-
-
     do {
         let teamMemberRole = await addTeamMember.memberRole()
         let something = await createTeamMember(teamMemberRole);
@@ -37,28 +30,18 @@ const buildTeam = async () => {
     } while (addMember)
 
     
-    // for(let i = 0; i < 5 ; i++){
-        // let something = await createTeamMember('Intern');
-        // team.push(something)
-        // .then(response => {
-        //     team.push(response)
-        //     console.log('----------------', team);
-        // })
-    // }
+
     console.log('----------------', team);
+    const renderedTeam = render(team);
+    // __dirname + '/output/team.html'
+    fs.writeFile(outputPath, renderedTeam, err => {
+        if (err) throw err;
+        console.log('This file has been created.');
+    })
     console.log('Hello')
 
 }
 buildTeam()
-// console.log('Hello')
-
-
-
-// createTeamMember('Engineer');
-// createTeamMember('Manager');
-
-
-
 
 
 // After the user has input all employees desired, call the `render` function (required
