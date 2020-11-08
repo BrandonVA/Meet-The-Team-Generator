@@ -22,7 +22,10 @@ const buildTeam = async () => {
         // 1. ask for role                                            
         // 2. ask role specific questions                             
         // 3. push new member
-        // 4. ask if you want to create new member  (updates addMember with value)                   
+        // 4. ask if you want to create new member  (updates addMember with value)   
+
+    let manager = await createTeamMember('Manager');    //-- inquirer promise function
+    team.push(manager)                
         
     do {
         let teamMemberRole = await addTeamMember.memberRole()      // -- inquirer promise function
