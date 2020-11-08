@@ -25,13 +25,15 @@ const buildTeam = async () => {
         // 4. ask if you want to create new member  (updates addMember with value)   
 
     let manager = await createTeamMember('Manager');    //-- inquirer promise function
-    team.push(manager)                
+    team.push(manager)
+    console.log('Manager added.');                
         
     do {
         let teamMemberRole = await addTeamMember.memberRole()      // -- inquirer promise function
         let newMember = await createTeamMember(teamMemberRole);    //-- inquirer promise function
         team.push(newMember)
-        addMember =  await addTeamMember.proceed();                //-- inquirer promise function
+        console.log(`New ${teamMemberRole} added.`);
+        addMember =  await addTeamMember.proceed();                //-- inquirer promise function              
     } while (addMember)
 
     // var for holding value of the team rendered using the render function
@@ -39,7 +41,7 @@ const buildTeam = async () => {
     //  Writing new file the rendered html in the output folder.
     fs.writeFile(outputPath, renderedTeam, err => {
         if (err) throw err;
-        console.log('This file has been created.');
+        console.log('This file has been created and added to the output folder.');
     })
 
 }
